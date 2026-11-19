@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --color-peacock: #123F3A;
+  --color-peacock-deep: #0C2B27;
+  --color-sage: #A8B7A0;
+  --color-pearl: #E8E5D9;
+  --color-ivory: #F5F3EC;
+  --color-brass: #C3A66B;
+  --color-brass-deep: #9E8249;
+  --color-charcoal: #303431;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-accent: "Italiana", "Cormorant Garamond", Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+    background-color: #F5F3EC;
+    color: #303431;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    overflow-x: clip;
+    background-color: #F5F3EC;
+    color: #303431;
+  }
+
+  @media (max-width: 767px) {
+    html,
+    body,
+    * {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: #123F3A;
+    color: #E8E5D9;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle luxury linen paper weave backdrop */
+.bg-loom-texture {
+  background-image: radial-gradient(rgba(18, 63, 58, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

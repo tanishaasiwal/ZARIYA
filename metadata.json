@@ -1,0 +1,6 @@
+{
+  "name": "ZARIYA",
+  "description": "The Art of Tradition, Reimagined. Luxury handwoven Indian designer sarees — Banarasi, Kanjivaram, Chanderi, Organza, and Bridal Couture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
