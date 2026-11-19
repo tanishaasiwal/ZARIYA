@@ -61,9 +61,9 @@ export function WishlistPage() {
             {savedProducts.map((product) => (
               <article
                 key={product.id}
-                className="flex flex-col justify-between border border-[#303431]/12 bg-[#E8E5D9]/30 p-2.5 sm:p-4"
+                className="flex min-w-0 flex-col justify-between overflow-hidden border border-[#303431]/12 bg-[#E8E5D9]/30 p-2.5 sm:p-4"
               >
-                <div>
+                <div className="min-w-0">
                   <Link
                     to={`/product/${product.slug}`}
                     className="block aspect-[3/4] overflow-hidden bg-[#E8E5D9]"
@@ -75,7 +75,7 @@ export function WishlistPage() {
                       className="h-full w-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]"
                     />
                   </Link>
-                  <div className="mt-2.5 sm:mt-4">
+                  <div className="mt-2.5 sm:mt-4 min-w-0">
                     <p className="text-[10px] sm:text-xs text-[#303431]/65 truncate">
                       {product.collectionName} · {product.fabric}
                     </p>
@@ -91,11 +91,11 @@ export function WishlistPage() {
                   </div>
                 </div>
 
-                <div className="mt-3 sm:mt-5 flex items-center gap-1.5 sm:gap-2.5 pt-2.5 sm:pt-4 border-t border-[#303431]/10">
+                <div className="mt-3 sm:mt-5 flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2.5 pt-2.5 sm:pt-4 border-t border-[#303431]/10">
                   <button
                     type="button"
                     onClick={() => addToCart(product.id, 1, 'Unstitched Blouse Included', true)}
-                    className="flex flex-1 items-center justify-center gap-1.5 sm:gap-2 bg-[#123F3A] px-2 py-2.5 sm:py-3 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.1em] sm:tracking-[0.14em] text-[#E8E5D9] hover:bg-[#0C2B27] transition-colors whitespace-nowrap"
+                    className="flex w-full sm:w-auto sm:flex-1 min-w-0 items-center justify-center gap-1.5 sm:gap-2 bg-[#123F3A] px-2.5 py-2.5 sm:py-3 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[#E8E5D9] hover:bg-[#0C2B27] transition-colors whitespace-nowrap"
                   >
                     <ShoppingBag className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
                     <span className="truncate">Move to Bag</span>
@@ -104,9 +104,10 @@ export function WishlistPage() {
                     type="button"
                     onClick={() => toggleWishlist(product.id)}
                     aria-label={`Remove ${product.name} from wishlist`}
-                    className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center border border-[#303431]/20 text-[#303431] hover:border-[#7A1F24] hover:text-[#7A1F24]"
+                    className="flex h-9 w-full sm:h-10 sm:w-10 shrink-0 items-center justify-center gap-1.5 border border-[#303431]/20 text-[10px] font-medium uppercase tracking-[0.12em] text-[#303431] hover:border-[#7A1F24] hover:text-[#7A1F24] transition-colors"
                   >
-                    <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                    <span className="sm:hidden">Remove</span>
                   </button>
                 </div>
               </article>
