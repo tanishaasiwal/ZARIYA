@@ -6,6 +6,7 @@ import {FadeInSection, PageShell, usePageMeta} from '../components/MotionPrimiti
 import {Breadcrumbs} from '../components/Breadcrumbs';
 import {ProductCard} from '../components/ProductCard';
 import {SafeImage} from '../components/SafeImage';
+import {RajasthaniGateCard, RajasthaniHeroOrnament} from '../components/RajasthaniGateCard';
 
 const BRIDAL_HERO_LOOKS = [
   {
@@ -105,8 +106,8 @@ export function BridalEditPage() {
 
   return (
     <PageShell>
-      {/* Redesigned Couture Bridal Trousseau Hero */}
-      <section className="relative overflow-hidden border-b border-[#C3A66B]/25 bg-[#0C2B27] text-[#F5F3EC]">
+      {/* Couture Bridal Trousseau Hero — Rajasthani Palace Gate Design */}
+      <section className="relative overflow-hidden border-b border-[#C3A66B]/35 bg-[#0C2B27] text-[#F5F3EC]">
         <SafeImage
           src={ASSETS.heroBridal4k}
           alt=""
@@ -117,8 +118,9 @@ export function BridalEditPage() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#0C2B27] via-[#0C2B27]/92 to-[#0C2B27]/78"
         />
+        <RajasthaniHeroOrnament />
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 sm:gap-10 px-5 py-7 sm:px-8 sm:py-10 lg:grid-cols-12 lg:py-14">
+        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 sm:gap-10 px-5 py-8 sm:px-8 sm:py-11 lg:grid-cols-12 lg:py-14">
           {/* Left Bridal Narrative & Craft Specs */}
           <div className="lg:col-span-6">
             <Breadcrumbs
@@ -126,9 +128,12 @@ export function BridalEditPage() {
               items={[{label: 'Home', to: '/'}, {label: 'Bridal Edit'}]}
             />
 
-            <p className="mt-4 sm:mt-5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3]">
-              ZARIYA Bridal Trousseau Atelier
-            </p>
+            <div className="mt-4 sm:mt-5 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rotate-45 bg-[#C3A66B]" aria-hidden="true" />
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3]">
+                ZARIYA Bridal Trousseau Atelier
+              </p>
+            </div>
             <h1 className="mt-2 sm:mt-2.5 font-display text-[28px] font-normal leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[56px]">
               Heirlooms Woven for Sacred Vows.
             </h1>
@@ -139,7 +144,7 @@ export function BridalEditPage() {
             </p>
 
             {/* Ceremonial Highlights Row */}
-            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-[#E8E5D9]/15 pt-5 sm:grid-cols-3">
+            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-[#C3A66B]/25 pt-5 sm:grid-cols-3">
               <div>
                 <span className="block text-[11px] uppercase tracking-[0.14em] text-[#E8E5D9]/60">
                   Trousseau Edit
@@ -183,57 +188,101 @@ export function BridalEditPage() {
             </div>
           </div>
 
-          {/* Right Layered Bridal Look Switcher */}
+          {/* Right Layered Rajasthani Palace Gate Bridal Switcher */}
           <div className="lg:col-span-6 flex flex-col items-center lg:items-end">
-            <div className="w-full max-w-md lg:max-w-lg">
+            <div className="w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[420px]">
               <div className="relative flex items-end justify-center lg:justify-end">
                 <Link
                   to={activeLook.to}
-                  className="group relative aspect-[3/4] w-52 sm:w-64 lg:w-[270px] overflow-hidden border border-[#C3A66B]/45 bg-[#123F3A] shadow-2xl"
+                  className="group relative w-56 sm:w-68 lg:w-[285px] drop-shadow-[0_18px_34px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:-translate-y-1"
                 >
-                  <SafeImage
+                  <RajasthaniGateCard
                     src={activeLook.primary}
                     alt={activeLook.title}
                     fallbackTitle={activeLook.title}
                     priority
-                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent p-3.5 sm:p-4">
-                    <p className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.14em] text-[#FFE3A3]">
+                    imageClassName="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                    bottomGradientHeight="h-[44%]"
+                  >
+                    <p className="text-[8.5px] sm:text-[10px] font-medium uppercase tracking-[0.14em] text-[#FFE3A3] truncate">
                       {activeLook.meta}
                     </p>
-                    <p className="mt-0.5 font-display text-base sm:text-lg leading-tight text-white">
+                    <p className="mt-0.5 font-display text-sm sm:text-base lg:text-lg leading-snug text-white truncate">
                       {activeLook.title}
                     </p>
-                  </div>
+                  </RajasthaniGateCard>
                 </Link>
 
-                <div className="-ml-6 mb-4 aspect-[3/4] w-24 sm:-ml-8 sm:mb-6 sm:w-32 lg:w-36 overflow-hidden border border-[#C3A66B]/55 bg-[#123F3A] shadow-xl">
-                  <SafeImage
+                <div className="-ml-8 mb-4 w-28 sm:-ml-10 sm:mb-6 sm:w-34 lg:w-[152px] drop-shadow-[0_14px_26px_rgba(0,0,0,0.54)]">
+                  <RajasthaniGateCard
                     src={activeLook.secondary}
                     alt={`${activeLook.title} alternate bridal angle`}
                     priority
-                    className="h-full w-full object-cover object-top"
+                    showPillarsDetail={false}
                   />
                 </div>
               </div>
 
-              {/* Clean Text Switcher Tabs */}
-              <div className="mt-4 flex flex-wrap justify-center lg:justify-end gap-1.5">
-                {BRIDAL_HERO_LOOKS.map((look, idx) => (
-                  <button
-                    key={look.id}
-                    type="button"
-                    onClick={() => setActiveLookIdx(idx)}
-                    className={`px-3 py-1.5 text-[11px] font-medium tracking-[0.06em] transition-colors whitespace-nowrap ${
-                      activeLookIdx === idx
-                        ? 'border border-[#D6B97C] bg-[#D6B97C] text-[#0C2B27]'
-                        : 'border border-white/20 bg-white/5 text-[#E8E5D9]/80 hover:border-[#D6B97C]/60 hover:text-white'
-                    }`}
-                  >
-                    {look.label}
-                  </button>
-                ))}
+              {/* Rajasthani Palace Gate Trousseau Plate Selector */}
+              <div className="mt-5 sm:mt-6">
+                <div className="mb-2.5 flex items-center justify-center lg:justify-end gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#C3A66B]">
+                  <span className="h-px w-6 bg-[#C3A66B]/45" aria-hidden="true" />
+                  <span className="font-semibold text-[#FFE3A3] tabular-nums">
+                    {String(activeLookIdx + 1).padStart(2, '0')} / {String(BRIDAL_HERO_LOOKS.length).padStart(2, '0')}
+                  </span>
+                  <span aria-hidden="true">◆</span>
+                  <span className="text-[#E8E5D9]/85">{activeLook.label}</span>
+                  <span className="h-px w-6 bg-[#C3A66B]/45" aria-hidden="true" />
+                </div>
+
+                <div className="grid grid-cols-5 gap-2 sm:gap-2.5">
+                  {BRIDAL_HERO_LOOKS.map((look, idx) => {
+                    const isSelected = activeLookIdx === idx;
+                    const shortGateLabel =
+                      look.id === 'sindoori'
+                        ? 'Pheras'
+                        : look.id === 'rani-banarasi'
+                          ? 'Kadwa'
+                          : look.id === 'gajri-bandhani'
+                            ? 'Gota'
+                            : look.id === 'bronze-korvai'
+                              ? 'Bronze'
+                              : 'Ivory';
+
+                    return (
+                      <button
+                        key={look.id}
+                        type="button"
+                        onClick={() => setActiveLookIdx(idx)}
+                        aria-label={`Preview ${look.title}`}
+                        aria-pressed={isSelected}
+                        className={`group relative block w-full transition-all duration-300 focus-visible:outline-none ${
+                          isSelected
+                            ? '-translate-y-1 opacity-100 drop-shadow-[0_10px_18px_rgba(214,185,124,0.36)]'
+                            : 'opacity-65 hover:opacity-100 hover:-translate-y-0.5 drop-shadow-[0_6px_12px_rgba(0,0,0,0.4)]'
+                        }`}
+                      >
+                        <RajasthaniGateCard
+                          src={look.primary}
+                          alt={look.label}
+                          fallbackTitle={look.label}
+                          priority
+                          imageClassName="object-cover object-top transition-transform duration-500 group-hover:scale-[1.06]"
+                          bottomGradientHeight="h-[48%]"
+                          showPillarsDetail={false}
+                        >
+                          <p
+                            className={`text-[7.5px] sm:text-[9px] font-semibold uppercase tracking-[0.06em] truncate ${
+                              isSelected ? 'text-[#FFE3A3]' : 'text-[#E8E5D9]/90'
+                            }`}
+                          >
+                            {shortGateLabel}
+                          </p>
+                        </RajasthaniGateCard>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

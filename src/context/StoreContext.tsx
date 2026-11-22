@@ -44,8 +44,8 @@ interface StoreContextValue {
 const StoreContext = createContext<StoreContextValue | undefined>(undefined);
 
 const STORAGE_KEYS = {
-  cart: 'zariya_cart_v1',
-  wishlist: 'zariya_wishlist_v1',
+  cart: 'zariya_cart_v2',
+  wishlist: 'zariya_wishlist_v2',
   recent: 'zariya_recent_v1',
   newsletter: 'zariya_newsletter_v1',
 };
@@ -62,16 +62,10 @@ function readJsonStorage<T>(key: string, fallback: T): T {
 
 export function StoreProvider({children}: {children: React.ReactNode}) {
   const [cart, setCart] = useState<CartItem[]>(() =>
-    readJsonStorage<CartItem[]>(STORAGE_KEYS.cart, [
-      {
-        productId: 'zar-001',
-        quantity: 1,
-        blouseOption: 'Unstitched Blouse Included',
-      },
-    ])
+    readJsonStorage<CartItem[]>(STORAGE_KEYS.cart, [])
   );
   const [wishlist, setWishlist] = useState<string[]>(() =>
-    readJsonStorage<string[]>(STORAGE_KEYS.wishlist, ['zar-002', 'zar-004'])
+    readJsonStorage<string[]>(STORAGE_KEYS.wishlist, [])
   );
   const [recentlyViewed, setRecentlyViewed] = useState<string[]>(() =>
     readJsonStorage<string[]>(STORAGE_KEYS.recent, ['zar-003', 'zar-006', 'zar-001'])

@@ -13,6 +13,7 @@ import {BagDrawer} from './components/BagDrawer';
 import {SearchOverlay} from './components/SearchOverlay';
 import {QuickViewModal} from './components/QuickViewModal';
 import {ToastNotification} from './components/ToastNotification';
+import {RajasthaniGateClipDefs} from './components/RajasthaniGateCard';
 import {HomePage} from './pages/HomePage';
 import {ShopPage} from './pages/ShopPage';
 import {CollectionsPage} from './pages/CollectionsPage';
@@ -44,6 +45,7 @@ export default function App() {
       <StoreProvider>
         <BrowserRouter>
           <ScrollToTop />
+          <RajasthaniGateClipDefs />
           <div className="flex min-h-screen flex-col bg-[#F5F3EC] text-[#303431]">
             <Navbar />
             <div className="flex-1">

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {AnimatePresence, motion, useReducedMotion} from 'motion/react';
-import {ArrowRight, Check} from 'lucide-react';
+import {ArrowRight, Check, ChevronLeft, ChevronRight} from 'lucide-react';
 import {ASSETS, COLLECTIONS, PRODUCTS, formatINR} from '../data/catalog';
 import {TESTIMONIALS} from '../data/editorial';
 import {useStore} from '../context/StoreContext';
@@ -224,6 +224,14 @@ export function HomePage() {
   const [newsletterError, setNewsletterError] = useState('');
   const {newsletterSubscribed, subscribeNewsletter} = useStore();
   const prefersReduced = useReducedMotion();
+  const collectionScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollCollections = (direction: 'left' | 'right') => {
+    const el = collectionScrollRef.current;
+    if (!el) return;
+    const distance = Math.max(240, Math.round(el.clientWidth * 0.72));
+    el.scrollBy({left: direction === 'right' ? distance : -distance, behavior: 'smooth'});
+  };
 
   useEffect(() => {
     if (prefersReduced) return;
@@ -458,8 +466,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 3. Shop by Collection */}
-      <section className="bg-[#E8E5D9]/55 py-12 sm:py-16 lg:py-24">
+      {/* 3. Shop by Collection — Sculpted Rajasthani Palace Gate (Jharokha) Cards */}
+      <section className="bg-[#E8E5D9]/55 py-12 sm:py-16 lg:py-22">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
@@ -470,45 +478,153 @@ export function HomePage() {
                 Shop by Collection
               </h2>
             </div>
-            <Link
-              to="/collections"
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#123F3A] hover:text-[#9E8249] transition-colors whitespace-nowrap"
-            >
-              All Twelve Collections
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+            <div className="flex items-center justify-between gap-4 sm:justify-end">
+              <Link
+                to="/collections"
+                className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#123F3A] hover:text-[#9E8249] transition-colors whitespace-nowrap"
+              >
+                All Twelve Collections
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <div className="flex items-center gap-1.5" aria-label="Scroll collections">
+                <button
+                  type="button"
+                  onClick={() => scrollCollections('left')}
+                  aria-label="Scroll collections left"
+                  className="flex h-8 w-8 items-center justify-center border border-[#123F3A]/25 bg-[#F5F3EC] text-[#123F3A] hover:border-[#123F3A] hover:bg-[#123F3A] hover:text-[#E8E5D9] transition-colors"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCollections('right')}
+                  aria-label="Scroll collections right"
+                  className="flex h-8 w-8 items-center justify-center border border-[#123F3A]/25 bg-[#F5F3EC] text-[#123F3A] hover:border-[#123F3A] hover:bg-[#123F3A] hover:text-[#E8E5D9] transition-colors"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3.5 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
-            {COLLECTIONS.map((collection, idx) => (
-              <FadeInSection key={collection.slug} delay={idx * 0.04}>
+          <FadeInSection>
+            <div
+              ref={collectionScrollRef}
+              className="collection-horizontal-scroll mt-8 sm:mt-10 flex gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 pt-2"
+            >
+              {COLLECTIONS.map((collection, idx) => (
                 <Link
+                  key={collection.slug}
                   to={`/collections/${collection.slug}`}
-                  className="group block h-full bg-[#F5F3EC] border border-[#303431]/10 hover:border-[#123F3A]/40 transition-colors"
+                  className="group relative block w-[45%] min-w-[152px] max-w-[188px] sm:w-[210px] sm:max-w-none lg:w-[228px] shrink-0 snap-start drop-shadow-[0_10px_22px_rgba(18,63,58,0.16)] transition-all duration-300 hover:-translate-y-1.5 hover:drop-shadow-[0_18px_32px_rgba(18,63,58,0.26)] focus-visible:outline-none"
                 >
-                  <div className="aspect-[3/4] w-full overflow-hidden bg-[#E8E5D9]">
+                  {/* Entire Card Clipped to the True Rajasthani Gate Silhouette */}
+                  <div className="clip-rajasthani-gate relative aspect-[300/380] w-full overflow-hidden bg-[#123F3A]">
                     <SafeImage
                       src={collection.image}
                       alt={`${collection.name} — ${collection.tagline}`}
                       fallbackTitle={collection.name}
-                      className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                      className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                     />
-                  </div>
-                  <div className="p-3 sm:p-5">
-                    <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[#9E8249] truncate">
-                      {collection.origin}
-                    </p>
-                    <h3 className="mt-1 font-display text-lg sm:text-2xl font-medium text-[#123F3A] leading-tight">
-                      {collection.name}
-                    </h3>
-                    <p className="mt-1 hidden sm:block text-xs leading-relaxed text-[#303431]/75 line-clamp-2">
-                      {collection.tagline}
-                    </p>
+
+                    {/* Deep Emerald Courtyard Gradient behind Bottom Nameplate */}
+                    <div
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-[#09211E] via-[#123F3A]/82 to-transparent"
+                      aria-hidden="true"
+                    />
+
+                    {/* Integrated Rajasthani Gate Details & Gold Filigree Border */}
+                    <svg
+                      viewBox="0 0 300 380"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 h-full w-full"
+                    >
+                      <defs>
+                        <linearGradient
+                          id={`palace-gold-${idx}`}
+                          x1="0"
+                          y1="0"
+                          x2="300"
+                          y2="380"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop offset="0%" stopColor="#F3DFA7" />
+                          <stop offset="45%" stopColor="#C3A66B" />
+                          <stop offset="100%" stopColor="#947439" />
+                        </linearGradient>
+                      </defs>
+
+                      {/* Subtle Dark Emerald Palace Frame Lining Inside the Gate Edge */}
+                      <path
+                        d="M150 4 Q166 6 178 24 Q198 18 212 38 Q234 34 246 58 Q268 58 276 84 Q290 88 290 108 V356 L298 364 V378 H2 V364 L10 356 V108 Q10 88 24 84 Q32 58 54 58 Q66 34 88 38 Q102 18 122 24 Q134 6 150 4 Z M150 18 Q137 19 127 34 Q110 29 98 46 Q80 42 69 63 Q51 62 43 85 Q24 88 24 108 V358 H276 V108 Q276 88 257 85 Q249 62 231 63 Q220 42 202 46 Q190 29 173 34 Q163 19 150 18 Z"
+                        fill="#123F3A"
+                        fillOpacity="0.94"
+                      />
+
+                      {/* Outer Burnished Gold Mehrab Gate Molding */}
+                      <path
+                        d="M150 5 Q165 7 177 24.5 Q197 19 211 38.5 Q233 35 245 58.5 Q267 59 275 84.5 Q289 89 289 108 V356 L297 364 V376.5 H3 V364 L11 356 V108 Q11 89 25 84.5 Q33 59 55 58.5 Q67 35 89 38.5 Q103 19 123 24.5 Q135 7 150 5 Z"
+                        fill="none"
+                        stroke={`url(#palace-gold-${idx})`}
+                        strokeWidth="2.6"
+                        strokeLinejoin="round"
+                      />
+
+                      {/* Inner Scalloped Gold Zari Arch Trim */}
+                      <path
+                        d="M150 18 Q137 19 127 34 Q110 29 98 46 Q80 42 69 63 Q51 62 43 85 Q24 88 24 108 V358 H276 V108 Q276 88 257 85 Q249 62 231 63 Q220 42 202 46 Q190 29 173 34 Q163 19 150 18 Z"
+                        fill="none"
+                        stroke={`url(#palace-gold-${idx})`}
+                        strokeWidth="1.6"
+                        strokeLinejoin="round"
+                      />
+
+                      {/* Delicate Inner Beaded Gold Arch Glow */}
+                      <path
+                        d="M150 23 Q139 24 130 38 Q114 34 102 50 Q85 47 74 66 Q56 66 48 88 Q30 91 30 110 V352 H270 V110 Q270 91 252 88 Q244 66 226 66 Q215 47 198 50 Q186 34 170 38 Q161 24 150 23"
+                        fill="none"
+                        stroke="#F3DFA7"
+                        strokeOpacity="0.42"
+                        strokeWidth="0.75"
+                      />
+
+                      {/* Kalash Apex Ornament */}
+                      <path d="M150 6 L154 12 L150 16.5 L146 12 Z" fill="#F3DFA7" />
+
+                      {/* Pillar Vertical Flutes & Carved Springer Brackets */}
+                      <line x1="17" y1="112" x2="17" y2="352" stroke="#C3A66B" strokeOpacity="0.45" strokeWidth="0.8" />
+                      <line x1="283" y1="112" x2="283" y2="352" stroke="#C3A66B" strokeOpacity="0.45" strokeWidth="0.8" />
+                      <rect x="11" y="106" width="13" height="6" fill="#C3A66B" fillOpacity="0.35" stroke="#C3A66B" strokeWidth="0.7" />
+                      <rect x="276" y="106" width="13" height="6" fill="#C3A66B" fillOpacity="0.35" stroke="#C3A66B" strokeWidth="0.7" />
+
+                      {/* Carved Gate Threshold Plinth Step */}
+                      <line x1="8" y1="364" x2="292" y2="364" stroke="#C3A66B" strokeOpacity="0.6" strokeWidth="1" />
+                    </svg>
+
+                    {/* Integrated Sanctuary Nameplate Inside Lower Gate */}
+                    <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-5 pt-6 text-center sm:px-6 sm:pb-6">
+                      <div className="mx-auto mb-1.5 flex items-center justify-center gap-1.5" aria-hidden="true">
+                        <span className="h-px w-4 bg-[#C3A66B]/65" />
+                        <span className="h-1 w-1 rotate-45 bg-[#F3DFA7]" />
+                        <span className="h-px w-4 bg-[#C3A66B]/65" />
+                      </div>
+                      <p className="text-[9px] sm:text-[10px] font-medium uppercase tracking-[0.15em] text-[#EAD298] truncate">
+                        {collection.origin}
+                      </p>
+                      <h3 className="mt-0.5 font-display text-[17px] sm:text-[21px] font-medium text-[#F5F3EC] leading-tight group-hover:text-[#F3DFA7] transition-colors">
+                        {collection.name}
+                      </h3>
+                      <span className="mt-1.5 inline-flex items-center gap-1 text-[9.5px] sm:text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#EAD298]/90">
+                        <span>Explore</span>
+                        <ArrowRight className="h-2.5 w-2.5 sm:h-3 sm:w-3 transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
+                    </div>
                   </div>
                 </Link>
-              </FadeInSection>
-            ))}
-          </div>
+              ))}
+            </div>
+          </FadeInSection>
         </div>
       </section>
 
@@ -711,14 +827,17 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 6. Editorial Lookbook · Autumn 2026 */}
-      <section className="border-t border-[#303431]/12 bg-[#F5F3EC] py-12 sm:py-16 lg:py-24">
+      {/* 6. Editorial Lookbook · Autumn 2026 — Traditional Haveli Darbar Edition */}
+      <section className="border-t border-[#C3A66B]/30 bg-[#F5F3EC] py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="flex flex-col justify-between gap-4 border-b border-[#303431]/12 pb-6 sm:flex-row sm:items-end">
+          <div className="flex flex-col justify-between gap-4 border-b border-[#C3A66B]/30 pb-6 sm:flex-row sm:items-end">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9E8249]">
-                Editorial Lookbook · Autumn 2026
-              </p>
+              <div className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rotate-45 bg-[#C3A66B]" aria-hidden="true" />
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9E8249]">
+                  Editorial Lookbook · Autumn 2026
+                </p>
+              </div>
               <h2 className="mt-2 font-display text-3xl font-normal text-[#123F3A] sm:text-4xl [text-wrap:balance]">
                 Courtyard Light &amp; Ceremonial Stillness
               </h2>
@@ -733,31 +852,94 @@ export function HomePage() {
           </div>
 
           <div className="mt-8 sm:mt-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            {/* Large Primary Lookbook Plate */}
-            <div className="mx-auto w-full max-w-md lg:max-w-none lg:col-span-6">
+            {/* Large Primary Lookbook Plate — True Rajasthani Palace Gate Silhouette */}
+            <div className="mx-auto w-full max-w-[295px] sm:max-w-[355px] lg:max-w-[400px] lg:col-span-5">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentPlate.id}
-                  initial={prefersReduced ? false : {opacity: 0}}
-                  animate={{opacity: 1}}
-                  exit={prefersReduced ? {opacity: 1} : {opacity: 0}}
-                  transition={{duration: 0.2}}
-                  className="border border-[#303431]/15 bg-[#E8E5D9] p-2 sm:p-2.5"
+                  initial={prefersReduced ? false : {opacity: 0, scale: 0.985}}
+                  animate={{opacity: 1, scale: 1}}
+                  exit={prefersReduced ? {opacity: 1} : {opacity: 0, scale: 0.985}}
+                  transition={{duration: 0.24}}
+                  className="drop-shadow-[0_14px_28px_rgba(18,63,58,0.2)]"
                 >
-                  <div className="aspect-[3/4] w-full overflow-hidden bg-[#F5F3EC]">
+                  <div className="clip-rajasthani-gate relative aspect-[300/380] w-full overflow-hidden bg-[#123F3A]">
                     <SafeImage
                       src={currentPlate.image}
                       alt={currentPlate.imageAlt}
                       fallbackTitle={currentPlate.headline}
                       className="h-full w-full object-cover object-top"
                     />
+
+                    {/* Deep Emerald Courtyard Gradient for Lower Plaque */}
+                    <div
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[#09211E] via-[#123F3A]/75 to-transparent"
+                      aria-hidden="true"
+                    />
+
+                    {/* Rajasthani Gate Carved Frame & Gold Filigree Border */}
+                    <svg
+                      viewBox="0 0 300 380"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 h-full w-full"
+                    >
+                      <defs>
+                        <linearGradient id="lookbook-gate-gold" x1="0" y1="0" x2="300" y2="380" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stopColor="#F3DFA7" />
+                          <stop offset="50%" stopColor="#C3A66B" />
+                          <stop offset="100%" stopColor="#947439" />
+                        </linearGradient>
+                      </defs>
+
+                      <path
+                        d="M150 4 Q166 6 178 24 Q198 18 212 38 Q234 34 246 58 Q268 58 276 84 Q290 88 290 108 V356 L298 364 V378 H2 V364 L10 356 V108 Q10 88 24 84 Q32 58 54 58 Q66 34 88 38 Q102 18 122 24 Q134 6 150 4 Z M150 18 Q137 19 127 34 Q110 29 98 46 Q80 42 69 63 Q51 62 43 85 Q24 88 24 108 V358 H276 V108 Q276 88 257 85 Q249 62 231 63 Q220 42 202 46 Q190 29 173 34 Q163 19 150 18 Z"
+                        fill="#123F3A"
+                        fillOpacity="0.94"
+                      />
+                      <path
+                        d="M150 5 Q165 7 177 24.5 Q197 19 211 38.5 Q233 35 245 58.5 Q267 59 275 84.5 Q289 89 289 108 V356 L297 364 V376.5 H3 V364 L11 356 V108 Q11 89 25 84.5 Q33 59 55 58.5 Q67 35 89 38.5 Q103 19 123 24.5 Q135 7 150 5 Z"
+                        fill="none"
+                        stroke="url(#lookbook-gate-gold)"
+                        strokeWidth="2.6"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M150 18 Q137 19 127 34 Q110 29 98 46 Q80 42 69 63 Q51 62 43 85 Q24 88 24 108 V358 H276 V108 Q276 88 257 85 Q249 62 231 63 Q220 42 202 46 Q190 29 173 34 Q163 19 150 18 Z"
+                        fill="none"
+                        stroke="url(#lookbook-gate-gold)"
+                        strokeWidth="1.6"
+                        strokeLinejoin="round"
+                      />
+                      <path d="M150 6 L154 12 L150 16.5 L146 12 Z" fill="#F3DFA7" />
+                      <line x1="17" y1="112" x2="17" y2="352" stroke="#C3A66B" strokeOpacity="0.45" strokeWidth="0.8" />
+                      <line x1="283" y1="112" x2="283" y2="352" stroke="#C3A66B" strokeOpacity="0.45" strokeWidth="0.8" />
+                      <rect x="11" y="106" width="13" height="6" fill="#C3A66B" fillOpacity="0.35" stroke="#C3A66B" strokeWidth="0.7" />
+                      <rect x="276" y="106" width="13" height="6" fill="#C3A66B" fillOpacity="0.35" stroke="#C3A66B" strokeWidth="0.7" />
+                      <line x1="8" y1="364" x2="292" y2="364" stroke="#C3A66B" strokeOpacity="0.6" strokeWidth="1" />
+                    </svg>
+
+                    {/* Integrated Plate Number & Location Inside Lower Gate */}
+                    <div className="absolute inset-x-0 bottom-0 z-10 px-6 pb-5 pt-6 text-center">
+                      <div className="mx-auto mb-1 flex items-center justify-center gap-1.5" aria-hidden="true">
+                        <span className="h-px w-5 bg-[#C3A66B]/65" />
+                        <span className="h-1 w-1 rotate-45 bg-[#F3DFA7]" />
+                        <span className="h-px w-5 bg-[#C3A66B]/65" />
+                      </div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#EAD298] tabular-nums">
+                        {currentPlate.plateNumber}
+                      </p>
+                      <p className="mt-0.5 font-display text-sm sm:text-base italic text-[#F5F3EC] truncate">
+                        {currentPlate.location}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* Right Plate Study, Selector Strip & Direct Saree Link */}
-            <div className="flex flex-col gap-6 lg:col-span-6">
+            {/* Right Plate Study, Compact Gate Selector Cards & Companion Saree Folio */}
+            <div className="flex flex-col gap-6 lg:col-span-7">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentPlate.id}
@@ -767,8 +949,10 @@ export function HomePage() {
                   transition={{duration: 0.2}}
                 >
                   <div className="flex flex-wrap items-center gap-2 text-xs text-[#9E8249]">
-                    <span className="font-semibold tabular-nums">{currentPlate.plateNumber}</span>
-                    <span aria-hidden="true">·</span>
+                    <span className="font-semibold uppercase tracking-[0.14em] tabular-nums">
+                      {currentPlate.plateNumber}
+                    </span>
+                    <span aria-hidden="true">◆</span>
                     <span>{currentPlate.location}</span>
                   </div>
 
@@ -780,19 +964,23 @@ export function HomePage() {
                     {currentPlate.editorialNote}
                   </p>
 
-                  <p className="mt-3.5 border-t border-[#303431]/12 pt-3.5 text-xs leading-relaxed text-[#303431]/75 sm:text-sm">
+                  <div className="mt-4 border-l-2 border-[#C3A66B] bg-[#E8E5D9]/55 px-4 py-3 text-xs leading-relaxed text-[#303431]/80 sm:text-sm">
                     <span className="font-semibold text-[#123F3A]">Atelier Styling Note: </span>
                     {currentPlate.stylingNote}
-                  </p>
+                  </div>
                 </motion.div>
               </AnimatePresence>
 
-              {/* Interactive 3-Plate Index */}
+              {/* Interactive 3-Plate Compact Rajasthani Gate Selector Cards (Zero Square Box) */}
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#303431]/60">
-                  Select Lookbook Plate
-                </p>
-                <div className="mt-2.5 grid grid-cols-3 gap-2.5 sm:gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-5 bg-[#C3A66B]" aria-hidden="true" />
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9E8249]">
+                    Select Lookbook Plate
+                  </p>
+                </div>
+
+                <div className="mt-3.5 grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
                   {LOOKBOOK_PLATES.map((plate, index) => {
                     const isActive = activePlateIdx === index;
                     return (
@@ -800,24 +988,63 @@ export function HomePage() {
                         key={plate.id}
                         type="button"
                         onClick={() => setActivePlateIdx(index)}
-                        className={`group text-left border p-1 sm:p-1.5 transition-colors ${
+                        className={`group relative mx-auto block w-full max-w-[116px] sm:max-w-[138px] transition-all duration-300 focus-visible:outline-none ${
                           isActive
-                            ? 'border-[#123F3A] bg-[#E8E5D9]'
-                            : 'border-[#303431]/15 bg-[#F5F3EC] hover:border-[#123F3A]/45'
+                            ? '-translate-y-1 drop-shadow-[0_10px_20px_rgba(18,63,58,0.28)]'
+                            : 'opacity-85 hover:opacity-100 hover:-translate-y-0.5 drop-shadow-[0_6px_14px_rgba(18,63,58,0.14)]'
                         }`}
                       >
-                        <div className="aspect-[3/4] w-full overflow-hidden bg-[#E8E5D9]">
+                        <div className="clip-rajasthani-gate relative aspect-[300/380] w-full overflow-hidden bg-[#123F3A]">
                           <SafeImage
                             src={plate.image}
                             alt={plate.shortTitle}
                             fallbackTitle={plate.shortTitle}
-                            className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+                            className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.06]"
                           />
-                        </div>
-                        <div className="pt-1.5 sm:pt-2 px-0.5">
-                          <p className="text-[11px] font-medium text-[#123F3A] truncate">
-                            {plate.shortTitle}
-                          </p>
+
+                          <div
+                            className={`pointer-events-none absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t ${
+                              isActive
+                                ? 'from-[#09211E] via-[#123F3A]/85 to-transparent'
+                                : 'from-[#0C2B27]/90 via-[#123F3A]/65 to-transparent'
+                            }`}
+                            aria-hidden="true"
+                          />
+
+                          <svg
+                            viewBox="0 0 300 380"
+                            preserveAspectRatio="none"
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 h-full w-full"
+                          >
+                            <path
+                              d="M150 4 Q166 6 178 24 Q198 18 212 38 Q234 34 246 58 Q268 58 276 84 Q290 88 290 108 V356 L298 364 V378 H2 V364 L10 356 V108 Q10 88 24 84 Q32 58 54 58 Q66 34 88 38 Q102 18 122 24 Q134 6 150 4 Z M150 18 Q137 19 127 34 Q110 29 98 46 Q80 42 69 63 Q51 62 43 85 Q24 88 24 108 V358 H276 V108 Q276 88 257 85 Q249 62 231 63 Q220 42 202 46 Q190 29 173 34 Q163 19 150 18 Z"
+                              fill={isActive ? '#123F3A' : '#1E4C46'}
+                            />
+                            <path
+                              d="M150 5 Q165 7 177 24.5 Q197 19 211 38.5 Q233 35 245 58.5 Q267 59 275 84.5 Q289 89 289 108 V356 L297 364 V376.5 H3 V364 L11 356 V108 Q11 89 25 84.5 Q33 59 55 58.5 Q67 35 89 38.5 Q103 19 123 24.5 Q135 7 150 5 Z"
+                              fill="none"
+                              stroke={isActive ? '#F3DFA7' : '#C3A66B'}
+                              strokeWidth={isActive ? '3.4' : '2.4'}
+                            />
+                            <path
+                              d="M150 18 Q137 19 127 34 Q110 29 98 46 Q80 42 69 63 Q51 62 43 85 Q24 88 24 108 V358 H276 V108 Q276 88 257 85 Q249 62 231 63 Q220 42 202 46 Q190 29 173 34 Q163 19 150 18 Z"
+                              fill="none"
+                              stroke={isActive ? '#EAD298' : '#C3A66B'}
+                              strokeWidth="1.6"
+                            />
+                            <path d="M150 6 L154 12 L150 16.5 L146 12 Z" fill={isActive ? '#F3DFA7' : '#C3A66B'} />
+                          </svg>
+
+                          <div className="absolute inset-x-0 bottom-0 z-10 px-2 pb-3 pt-4 text-center">
+                            <p
+                              className={`text-[9.5px] sm:text-[10.5px] font-semibold uppercase tracking-[0.1em] truncate ${
+                                isActive ? 'text-[#F3DFA7]' : 'text-[#E8E5D9]'
+                              }`}
+                            >
+                              {plate.shortTitle}
+                            </p>
+                          </div>
                         </div>
                       </button>
                     );
@@ -825,25 +1052,33 @@ export function HomePage() {
                 </div>
               </div>
 
-              {/* Direct Shop This Drape Companion Row */}
+              {/* Traditional Companion Saree Showcase Card */}
               <Link
                 to={`/product/${lookbookProduct.slug}`}
-                className="group flex items-center justify-between gap-3 sm:gap-4 border border-[#303431]/15 bg-[#E8E5D9]/65 p-3 sm:p-3.5 hover:border-[#123F3A]/50 transition-colors"
+                className="group relative flex items-center justify-between gap-3 sm:gap-4 border border-[#C3A66B]/60 bg-[#EFECE1] p-3 sm:p-4 shadow-sm hover:border-[#123F3A] hover:bg-[#E8E5D9] transition-all duration-200"
               >
+                {/* Filigree Corner Brackets */}
+                <span className="pointer-events-none absolute top-1 left-1 h-2.5 w-2.5 border-t border-l border-[#9E8249]/65" aria-hidden="true" />
+                <span className="pointer-events-none absolute top-1 right-1 h-2.5 w-2.5 border-t border-r border-[#9E8249]/65" aria-hidden="true" />
+                <span className="pointer-events-none absolute bottom-1 left-1 h-2.5 w-2.5 border-b border-l border-[#9E8249]/65" aria-hidden="true" />
+                <span className="pointer-events-none absolute bottom-1 right-1 h-2.5 w-2.5 border-b border-r border-[#9E8249]/65" aria-hidden="true" />
+
                 <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                  <div className="h-18 w-14 sm:h-20 sm:w-15 shrink-0 overflow-hidden bg-[#F5F3EC] border border-[#303431]/10">
-                    <SafeImage
-                      src={lookbookProduct.images[0]}
-                      alt={lookbookProduct.name}
-                      fallbackTitle={lookbookProduct.name}
-                      className="h-full w-full object-contain"
-                    />
+                  <div className="clip-rajasthani-gate h-20 w-16 sm:h-22 sm:w-18 shrink-0 overflow-hidden bg-[#123F3A] p-0.5">
+                    <div className="clip-rajasthani-gate h-full w-full overflow-hidden bg-[#F5F3EC]">
+                      <SafeImage
+                        src={lookbookProduct.images[0]}
+                        alt={lookbookProduct.name}
+                        fallbackTitle={lookbookProduct.name}
+                        className="h-full w-full object-cover object-top"
+                      />
+                    </div>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[#9E8249] truncate">
+                    <p className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[#9E8249] truncate">
                       Featured in Plate · {lookbookProduct.collectionName}
                     </p>
-                    <p className="mt-0.5 font-display text-base sm:text-lg font-medium text-[#123F3A] truncate">
+                    <p className="mt-0.5 font-display text-base sm:text-xl font-medium text-[#123F3A] truncate">
                       {lookbookProduct.name}
                     </p>
                     <p className="mt-0.5 text-xs sm:text-sm font-medium tabular-nums text-[#303431]">
@@ -851,9 +1086,10 @@ export function HomePage() {
                     </p>
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1 sm:gap-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[#123F3A] group-hover:text-[#9E8249] transition-colors whitespace-nowrap shrink-0">
-                  Shop
-                  <ArrowRight className="h-3.5 w-3.5" />
+
+                <span className="inline-flex items-center gap-1.5 border border-[#123F3A] bg-[#123F3A] px-3 py-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.12em] text-[#E8E5D9] group-hover:bg-[#0C2B27] transition-colors whitespace-nowrap shrink-0">
+                  <span>Shop</span>
+                  <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </span>
               </Link>
             </div>

@@ -6,6 +6,7 @@ import {ASSETS} from '../data/catalog';
 import {FadeInSection, PageShell, usePageMeta} from '../components/MotionPrimitives';
 import {Breadcrumbs} from '../components/Breadcrumbs';
 import {SafeImage} from '../components/SafeImage';
+import {RajasthaniGateCard, RajasthaniHeroOrnament} from '../components/RajasthaniGateCard';
 
 interface WeavingCapital {
   id: string;
@@ -181,68 +182,116 @@ export function HeritagePage() {
 
   return (
     <PageShell className="bg-[#F5F3EC]">
-      {/* 1. Institutional Exhibition Hero */}
-      <section className="bg-[#0C2B27] py-8 text-[#E8E5D9] sm:py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      {/* 1. Royal Heritage Hero — Rajasthani Courtyard & Master Guild Gates */}
+      <section className="relative overflow-hidden border-b border-[#C3A66B]/35 bg-[#0C2B27] py-10 text-[#E8E5D9] sm:py-16">
+        <SafeImage
+          src={ASSETS.heroCourtyard4k}
+          alt="Sunlit Rajasthani sandstone palace colonnade and carved arches"
+          fallbackTitle="ZARIYA Royal Heritage"
+          priority
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-22"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#09211E] via-[#0C2B27]/90 to-[#0C2B27]/76"
+        />
+        <RajasthaniHeroOrnament />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
           <Breadcrumbs tone="on-dark" items={[{label: 'Home', to: '/'}, {label: 'Our Heritage'}]} />
 
-          <div className="mt-6 sm:mt-8 grid grid-cols-1 items-stretch gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="mt-6 sm:mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="flex flex-col justify-between lg:col-span-6">
               <div>
-                <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#C3A66B]">
-                  ZARIYA Craft Monograph · Living Handloom Archive
+                <p className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3]">
+                  <span aria-hidden="true" className="text-[#C3A66B]">
+                    ◆
+                  </span>
+                  Royal Karkhana &amp; Living Guild Archive
                 </p>
-                <h1 className="mt-2.5 sm:mt-4 font-display text-[28px] font-normal leading-[1.1] text-[#E8E5D9] sm:text-4xl lg:text-5xl [text-wrap:balance]">
-                  The Art of Tradition, Kept Alive by Human Hands.
+                <h1 className="mt-2.5 sm:mt-4 font-display text-[30px] font-normal leading-[1.08] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)] sm:text-4xl lg:text-[50px] [text-wrap:balance]">
+                  Ancestral Looms of Royal Courtyard &amp; Craft.
                 </h1>
-                <p className="mt-3 sm:mt-5 max-w-xl text-[13px] sm:text-base leading-relaxed text-[#E8E5D9]/82">
-                  ZARIYA was founded on an unhurried conviction: heirloom silk cannot be imitated
-                  by high-speed power looms. Behind every drape stands a living guild of naksha
-                  pattern drawers, natural vat dyers, and master karigars across India’s historic
-                  textile capitals.
+                <p className="mt-3.5 sm:mt-5 max-w-xl text-[13px] sm:text-base leading-relaxed text-[#E8E5D9]/85">
+                  From Jaipur’s sandstone zardozi karkhanas to Varanasi’s sunken wooden pit looms,
+                  ZARIYA preserves the unhurried discipline of hand-spun mulberry silk, burnished
+                  antique zari, and hereditary karigar families who weave living history into every
+                  six-yard heirloom.
                 </p>
               </div>
 
-              <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-6 border-t border-[#E8E5D9]/15 pt-5 sm:pt-6">
+              <div className="mt-7 sm:mt-9 grid grid-cols-3 gap-3 sm:gap-6 border-t border-[#C3A66B]/25 pt-5 sm:pt-6">
                 <div>
                   <p className="font-display text-2xl sm:text-3xl tabular-nums text-[#FFE3A3]">
                     12
                   </p>
-                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/70">Weaving Houses</p>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/75">Heritage Houses</p>
                 </div>
                 <div>
                   <p className="font-display text-2xl sm:text-3xl tabular-nums text-[#FFE3A3]">
                     42+
                   </p>
-                  <p className="mt-1 text-xs text-[#E8E5D9]/70">Partner Master Guilds</p>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/75">
+                    Master Karigar Guilds
+                  </p>
                 </div>
                 <div>
                   <p className="font-display text-2xl sm:text-3xl tabular-nums text-[#FFE3A3]">
                     100%
                   </p>
-                  <p className="mt-1 text-xs text-[#E8E5D9]/70">Certified Silk Mark</p>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/75">
+                    Pure Tested Zari
+                  </p>
                 </div>
+              </div>
+
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/shop"
+                  className="inline-flex items-center gap-2 bg-[#D6B97C] px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#0C2B27] hover:bg-[#F5F3EC] transition-colors whitespace-nowrap"
+                >
+                  Explore Heritage Sarees
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+                <Link
+                  to="/collections"
+                  className="inline-flex items-center gap-2 border border-[#C3A66B]/55 px-5 py-3 text-xs font-medium uppercase tracking-[0.16em] text-[#FFE3A3] hover:border-[#FFE3A3] hover:text-white transition-colors whitespace-nowrap"
+                >
+                  View Craft Houses
+                </Link>
               </div>
             </div>
 
-            <div className="lg:col-span-6">
-              <div className="border border-[#C3A66B]/30 bg-[#123F3A] p-2.5 h-full flex flex-col justify-between">
-                <div className="aspect-[16/10] w-full overflow-hidden bg-[#0C2B27]">
-                  <SafeImage
-                    src={ASSETS.craftLoom4k}
-                    alt="Master weaver working a wooden pit loom with deep peacock teal silk warp threads"
-                    fallbackTitle="ZARIYA Artisan Loom"
+            {/* Right Layered Rajasthani Palace Gate Craft Portraits */}
+            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
+              <div className="relative flex items-end justify-center lg:justify-end">
+                <div className="w-[235px] sm:w-[295px] lg:w-[315px] xl:w-[335px] drop-shadow-[0_18px_36px_rgba(0,0,0,0.5)]">
+                  <RajasthaniGateCard
+                    src={ASSETS.craftspersonBanarasi}
+                    alt="Master handloom karigar weaving peacock silk and antique gold zari on an ancestral pit loom"
+                    fallbackTitle="Master Handloom Lineage"
                     priority
-                    className="h-full w-full object-cover"
-                  />
+                    imageClassName="object-cover object-top"
+                    bottomGradientHeight="h-[44%]"
+                  >
+                    <p className="text-[8.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#C3A66B] truncate">
+                      Madanpura &amp; Jaipur Guilds
+                    </p>
+                    <h2 className="mt-0.5 font-display text-sm sm:text-base lg:text-lg font-medium leading-snug text-[#FFE3A3] truncate">
+                      Master Handloom Lineage
+                    </h2>
+                  </RajasthaniGateCard>
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-3 px-2 pt-3 pb-1 text-xs text-[#E8E5D9]/75">
-                  <span className="font-display italic text-sm text-[#FFE3A3]">
-                    Archive Plate — Traditional Pit-Loom Interlacing
-                  </span>
-                  <span className="uppercase tracking-[0.14em] text-[11px] text-[#E8E5D9]/60">
-                    Hand-Thrown Shuttle · Zero Power Loom
-                  </span>
+
+                <div className="-ml-8 mb-4 w-[122px] sm:-ml-10 sm:mb-6 sm:w-[155px] lg:w-[168px] xl:w-[180px] drop-shadow-[0_14px_28px_rgba(0,0,0,0.55)]">
+                  <RajasthaniGateCard
+                    src={ASSETS.craftspersonZardozi}
+                    alt="Jaipur karkhana artisan stitching antique brass zardozi botanical motifs on pure silk"
+                    fallbackTitle="Jaipur Karkhana Zardozi"
+                    priority
+                    imageClassName="object-cover object-top"
+                    showPillarsDetail={false}
+                  />
                 </div>
               </div>
             </div>

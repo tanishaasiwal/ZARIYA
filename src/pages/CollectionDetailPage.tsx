@@ -11,7 +11,7 @@ import {
 import {PageShell, usePageMeta} from '../components/MotionPrimitives';
 import {Breadcrumbs} from '../components/Breadcrumbs';
 import {ProductCard} from '../components/ProductCard';
-import {SafeImage} from '../components/SafeImage';
+import {RajasthaniGateCard, RajasthaniHeroOrnament} from '../components/RajasthaniGateCard';
 
 export function CollectionDetailPage() {
   const {slug} = useParams<{slug: string}>();
@@ -115,13 +115,14 @@ export function CollectionDetailPage() {
 
   return (
     <PageShell className="bg-[#F5F3EC]">
-      {/* Redesigned Saree Collection Couture Hero */}
-      <section className="relative overflow-hidden border-b border-[#C3A66B]/25 bg-[#0E312D] text-[#F5F3EC]">
+      {/* Saree Collection Couture Hero — Rajasthani Palace Gate Design */}
+      <section className="relative overflow-hidden border-b border-[#C3A66B]/35 bg-[#0E312D] text-[#F5F3EC]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-24 right-1/4 h-80 w-80 rounded-full bg-[#C3A66B]/10 blur-3xl"
         />
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 sm:gap-8 px-5 py-7 sm:px-8 sm:py-10 lg:grid-cols-12 lg:gap-10 lg:py-12">
+        <RajasthaniHeroOrnament />
+        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 sm:gap-8 px-5 py-8 sm:px-8 sm:py-11 lg:grid-cols-12 lg:gap-10 lg:py-13">
           {/* Left Narrative & Provenance */}
           <div className="lg:col-span-7">
             <Breadcrumbs
@@ -133,9 +134,12 @@ export function CollectionDetailPage() {
               ]}
             />
 
-            <p className="mt-4 sm:mt-5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3]">
-              {collection.origin} · {collectionProducts.length} Handloom Sarees
-            </p>
+            <div className="mt-4 sm:mt-5 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rotate-45 bg-[#C3A66B]" aria-hidden="true" />
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3]">
+                {collection.origin} · {collectionProducts.length} Handloom Sarees
+              </p>
+            </div>
 
             <h1 className="mt-2 sm:mt-2.5 font-display text-[28px] font-normal leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[54px]">
               {collection.name}
@@ -149,7 +153,7 @@ export function CollectionDetailPage() {
               {collection.description}
             </p>
 
-            <div className="mt-7 grid grid-cols-2 gap-4 border-t border-[#E8E5D9]/15 pt-5 sm:grid-cols-3">
+            <div className="mt-7 grid grid-cols-2 gap-4 border-t border-[#C3A66B]/25 pt-5 sm:grid-cols-3">
               <div>
                 <span className="block text-[11px] uppercase tracking-[0.14em] text-[#E8E5D9]/60">
                   Craft Lineage
@@ -178,26 +182,25 @@ export function CollectionDetailPage() {
             </div>
           </div>
 
-          {/* Right Layered Dual Saree Portrait Showcase */}
+          {/* Right Layered Dual Saree Rajasthani Gate Portraits */}
           <div className="lg:col-span-5 flex items-center justify-center lg:justify-end">
             <div className="relative flex items-end justify-center">
-              <div className="aspect-[3/4] w-48 sm:w-64 lg:w-72 overflow-hidden border border-[#C3A66B]/35 bg-[#123F3A] shadow-2xl">
-                <SafeImage
+              <div className="w-48 sm:w-60 lg:w-64 drop-shadow-[0_16px_28px_rgba(0,0,0,0.45)]">
+                <RajasthaniGateCard
                   src={primaryHeroVisual}
                   alt={collection.name}
                   fallbackTitle={collection.name}
                   priority
-                  className="h-full w-full object-cover object-top"
                 />
               </div>
 
               {secondaryHeroVisual && (
-                <div className="-ml-6 mb-4 aspect-[3/4] w-24 sm:-ml-10 sm:mb-5 sm:w-32 lg:w-36 overflow-hidden border border-[#C3A66B]/50 bg-[#123F3A] shadow-xl">
-                  <SafeImage
+                <div className="-ml-7 mb-4 w-24 sm:-ml-10 sm:mb-5 sm:w-30 lg:w-34 drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]">
+                  <RajasthaniGateCard
                     src={secondaryHeroVisual}
                     alt={`${collection.name} drape alternate angle`}
                     priority
-                    className="h-full w-full object-cover object-top"
+                    showPillarsDetail={false}
                   />
                 </div>
               )}

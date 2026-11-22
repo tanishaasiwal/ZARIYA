@@ -7,6 +7,7 @@ import {ASSETS, formatINR, getProductById} from '../data/catalog';
 import {PageShell, usePageMeta} from '../components/MotionPrimitives';
 import {Breadcrumbs} from '../components/Breadcrumbs';
 import {SafeImage} from '../components/SafeImage';
+import {RajasthaniGateCard, RajasthaniHeroOrnament} from '../components/RajasthaniGateCard';
 
 type EditorialCategory = 'All' | 'Craft Chronicle' | 'Lookbook' | 'Material Study';
 
@@ -143,54 +144,146 @@ export function JournalPage() {
     handleSelectEntry(filteredEntries[nextIdx].slug);
   };
 
+  const activeHeroProduct = getProductById(activeEntry.featuredProductIds[0]);
+  const heroSecondaryImage =
+    activeHeroProduct?.images[1] ?? activeHeroProduct?.images[0] ?? activeEntry.coverImage;
+  const heroSecondaryAlt = activeHeroProduct
+    ? `${activeHeroProduct.name} alternate drape view`
+    : activeEntry.title;
+
   const activePlate =
     LOOKBOOK_GALLERY.find((plate) => plate.id === activePlateId) ?? LOOKBOOK_GALLERY[0];
   const activePlateProduct = getProductById(activePlate.productId);
 
   return (
     <PageShell className="bg-[#F5F3EC]">
-      {/* 1. Broadsheet Masthead */}
-      <section className="pt-6 pb-5 sm:pt-12 sm:pb-6">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <Breadcrumbs items={[{label: 'Home', to: '/'}, {label: 'Lookbook & Journal'}]} />
+      {/* 1. Royal Rajasthani Palace Masthead Hero */}
+      <section className="relative overflow-hidden border-b border-[#C3A66B]/35 bg-[#0C2B27] py-10 text-[#F5F3EC] sm:py-16">
+        <SafeImage
+          src={ASSETS.lookbookPalaceVerandah}
+          alt="Jaipur sandstone palace colonnade"
+          fallbackTitle="The ZARIYA Textile Journal"
+          priority
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-20"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#09211E] via-[#0C2B27]/92 to-[#0C2B27]/76"
+        />
+        <RajasthaniHeroOrnament />
 
-          <div className="mt-5 sm:mt-6 border-y border-[#303431]/25 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.18em] text-[#303431]/70">
-            <span>Issue IV · Autumn 2026 Monograph</span>
-            <span className="hidden sm:inline">Varanasi · Kanchipuram · Patan · Jaipur</span>
-            <span className="tabular-nums text-[#9E8249] font-semibold">
-              {JOURNAL_ENTRIES.length} Dispatches &amp; 6 Plates
-            </span>
-          </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
+          <Breadcrumbs tone="on-dark" items={[{label: 'Home', to: '/'}, {label: 'Lookbook & Journal'}]} />
 
-          <div className="mt-6 sm:mt-8 flex flex-col justify-between gap-5 sm:gap-6 border-b border-[#303431]/12 pb-6 sm:pb-8 lg:flex-row lg:items-end">
-            <div className="max-w-3xl">
-              <h1 className="font-display text-3xl font-normal leading-[1.06] text-[#123F3A] sm:text-5xl lg:text-6xl [text-wrap:balance]">
-                The ZARIYA Textile Journal
-              </h1>
-              <p className="mt-3 sm:mt-4 max-w-2xl text-sm leading-relaxed text-[#303431]/80 sm:text-base">
-                Field studies on handloom architecture, bridal minimalism, tested silk-core zari,
-                and seasonal styling dispatches across India’s living weaving towns.
-              </p>
+          <div className="mt-6 sm:mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
+            {/* Left Editorial Masthead & Category Switcher */}
+            <div className="flex flex-col justify-between lg:col-span-6">
+              <div>
+                <p className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3]">
+                  <span aria-hidden="true" className="text-[#C3A66B]">
+                    ◆
+                  </span>
+                  Issue IV · Autumn 2026 Monograph
+                </p>
+                <h1 className="mt-2.5 sm:mt-4 font-display text-[30px] font-normal leading-[1.08] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)] sm:text-4xl lg:text-[52px] [text-wrap:balance]">
+                  The ZARIYA Textile Journal
+                </h1>
+                <p className="mt-3.5 sm:mt-5 max-w-xl text-[13px] sm:text-base leading-relaxed text-[#E8E5D9]/85">
+                  Field dispatches on kadwa handloom architecture, bridal minimalism in sunlit
+                  courtyards, tested silk-core zari, and seasonal lookbook styling notes across
+                  India’s living weaving towns.
+                </p>
+              </div>
+
+              <div className="mt-7 sm:mt-8 grid grid-cols-3 gap-3 sm:gap-6 border-t border-[#C3A66B]/25 pt-5 sm:pt-6">
+                <div>
+                  <p className="font-display text-2xl sm:text-3xl tabular-nums text-[#FFE3A3]">
+                    {String(JOURNAL_ENTRIES.length).padStart(2, '0')}
+                  </p>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/75">
+                    Field Dispatches
+                  </p>
+                </div>
+                <div>
+                  <p className="font-display text-2xl sm:text-3xl tabular-nums text-[#FFE3A3]">
+                    06
+                  </p>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/75">
+                    Campaign Plates
+                  </p>
+                </div>
+                <div>
+                  <p className="font-display text-2xl sm:text-3xl tabular-nums text-[#FFE3A3]">
+                    04
+                  </p>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[#E8E5D9]/75">
+                    Weaving Capitals
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-7 grid grid-cols-2 sm:inline-flex w-full sm:w-auto items-center gap-1 border border-[#C3A66B]/40 bg-[#123F3A]/90 p-1">
+                {CATEGORIES.map((category) => {
+                  const isSelected = selectedCategory === category;
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      onClick={() => handleCategoryChange(category)}
+                      className={`px-3 sm:px-3.5 py-2 text-[11px] sm:text-xs font-medium text-center transition-colors whitespace-nowrap shrink-0 ${
+                        isSelected
+                          ? 'bg-[#D6B97C] text-[#0C2B27] font-semibold'
+                          : 'text-[#E8E5D9]/82 hover:text-[#FFE3A3]'
+                      }`}
+                    >
+                      {category === 'All' ? 'All Dispatches' : category}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:inline-flex w-full lg:w-auto items-center gap-1 border border-[#303431]/15 bg-[#E8E5D9]/65 p-1">
-              {CATEGORIES.map((category) => {
-                const isSelected = selectedCategory === category;
-                return (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => handleCategoryChange(category)}
-                    className={`px-3 sm:px-3.5 py-2 text-[11px] sm:text-xs font-medium text-center transition-colors whitespace-nowrap shrink-0 ${
-                      isSelected
-                        ? 'bg-[#123F3A] text-[#E8E5D9]'
-                        : 'text-[#303431]/75 hover:text-[#123F3A]'
-                    }`}
-                  >
-                    {category === 'All' ? 'All Dispatches' : category}
-                  </button>
-                );
-              })}
+            {/* Right Layered Rajasthani Palace Gate Editorial Plates */}
+            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeEntry.slug}
+                  initial={prefersReduced ? false : {opacity: 0}}
+                  animate={{opacity: 1}}
+                  exit={prefersReduced ? {opacity: 1} : {opacity: 0}}
+                  transition={{duration: 0.22}}
+                  className="relative flex items-end justify-center lg:justify-end"
+                >
+                  <div className="w-[235px] sm:w-[295px] lg:w-[315px] xl:w-[335px] drop-shadow-[0_18px_36px_rgba(0,0,0,0.5)]">
+                    <RajasthaniGateCard
+                      src={activeEntry.coverImage}
+                      alt={activeEntry.title}
+                      fallbackTitle={activeEntry.title}
+                      priority
+                      imageClassName="object-cover object-top"
+                      bottomGradientHeight="h-[44%]"
+                    >
+                      <p className="text-[8.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#C3A66B] truncate">
+                        {activeEntry.kicker}
+                      </p>
+                      <p className="mt-0.5 font-display text-sm sm:text-base lg:text-lg font-medium leading-snug text-[#FFE3A3] truncate">
+                        {activeEntry.title}
+                      </p>
+                    </RajasthaniGateCard>
+                  </div>
+
+                  <div className="-ml-8 mb-4 w-[122px] sm:-ml-10 sm:mb-6 sm:w-[155px] lg:w-[168px] xl:w-[180px] drop-shadow-[0_14px_28px_rgba(0,0,0,0.55)]">
+                    <RajasthaniGateCard
+                      src={heroSecondaryImage}
+                      alt={heroSecondaryAlt}
+                      fallbackTitle={activeHeroProduct?.name ?? activeEntry.title}
+                      priority
+                      imageClassName="object-cover object-top"
+                      showPillarsDetail={false}
+                    />
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
@@ -234,25 +327,27 @@ export function JournalPage() {
                     </p>
                   )}
 
-                  {/* Paired Uncropped 3:4 Plate + Prose Reading Body */}
-                  <div className="mt-6 sm:mt-7 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-12">
-                    <div className="md:col-span-5 mx-auto w-full max-w-sm md:max-w-none">
-                      <div className="border border-[#303431]/15 bg-[#E8E5D9]/65 p-2">
-                        <div className="aspect-[3/4] w-full overflow-hidden bg-[#123F3A]">
-                          <SafeImage
-                            src={activeEntry.coverImage}
-                            alt={activeEntry.title}
-                            priority
-                            className="h-full w-full object-cover object-top"
-                          />
-                        </div>
-                        <p className="px-1 pt-2.5 pb-0.5 text-[11px] font-display italic text-[#303431]/75">
-                          Archive Study — {activeEntry.kicker}
+                  {/* Paired Uncropped Sculpted Rajasthani Gate Plate + Prose Reading Body */}
+                  <div className="mt-6 sm:mt-7 grid grid-cols-1 items-center gap-6 sm:gap-8 md:grid-cols-12">
+                    <div className="md:col-span-5 mx-auto w-full max-w-[270px] sm:max-w-[300px] md:max-w-none drop-shadow-[0_12px_24px_rgba(18,63,58,0.18)]">
+                      <RajasthaniGateCard
+                        src={activeEntry.coverImage}
+                        alt={activeEntry.title}
+                        fallbackTitle={activeEntry.title}
+                        priority
+                        imageClassName="object-cover object-top"
+                        bottomGradientHeight="h-[42%]"
+                      >
+                        <p className="text-[8.5px] sm:text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#EAD298] truncate">
+                          Archive Study
                         </p>
-                      </div>
+                        <p className="mt-0.5 font-display text-xs sm:text-sm italic text-[#F5F3EC] truncate">
+                          {activeEntry.kicker}
+                        </p>
+                      </RajasthaniGateCard>
                     </div>
 
-                    <div className="md:col-span-7 space-y-5 text-sm leading-[1.78] text-[#303431]/85 sm:text-base">
+                    <div className="md:col-span-7 space-y-4 text-sm leading-[1.78] text-[#303431]/85 sm:text-base">
                       {activeEntry.paragraphs.map((paragraph, idx) => (
                         <p
                           key={idx}
@@ -265,14 +360,14 @@ export function JournalPage() {
                           {paragraph}
                         </p>
                       ))}
+
+                      {activeEntry.pullQuote && (
+                        <blockquote className="border-y border-[#C3A66B]/40 py-3.5 font-display text-lg sm:text-xl italic leading-relaxed text-[#123F3A]">
+                          “{activeEntry.pullQuote}”
+                        </blockquote>
+                      )}
                     </div>
                   </div>
-
-                  {activeEntry.pullQuote && (
-                    <blockquote className="mt-7 sm:mt-8 border-y border-[#303431]/15 py-4 sm:py-5 font-display text-xl sm:text-2xl italic leading-relaxed text-[#123F3A]">
-                      “{activeEntry.pullQuote}”
-                    </blockquote>
-                  )}
 
                   {/* Atelier Styling Notes & Featured Sarees Inline */}
                   <div className="mt-8 grid grid-cols-1 gap-6 border-b border-[#303431]/15 pb-8 md:grid-cols-12">
@@ -288,9 +383,12 @@ export function JournalPage() {
                     </div>
 
                     <div className="md:col-span-7">
-                      <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9E8249]">
-                        Woven in This Dispatch
-                      </h3>
+                      <div className="flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 rotate-45 bg-[#C3A66B]" aria-hidden="true" />
+                        <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9E8249]">
+                          Woven in This Dispatch
+                        </h3>
+                      </div>
                       <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                         {activeEntry.featuredProductIds.map((pid) => {
                           const product = getProductById(pid);
@@ -299,20 +397,42 @@ export function JournalPage() {
                             <Link
                               key={product.id}
                               to={`/product/${product.slug}`}
-                              className="group flex items-center gap-3 border border-[#303431]/12 bg-white/75 p-2.5 hover:border-[#123F3A] transition-colors"
+                              className="group relative flex items-center gap-3.5 border border-[#C3A66B]/50 bg-[#EFECE1]/75 p-2.5 shadow-sm hover:border-[#123F3A] hover:bg-[#E8E5D9] transition-all duration-200"
                             >
-                              <div className="h-18 w-14 shrink-0 overflow-hidden bg-[#F5F3EC] border border-[#303431]/10">
-                                <SafeImage
+                              <span
+                                className="pointer-events-none absolute top-1 left-1 h-2 w-2 border-t border-l border-[#9E8249]/65"
+                                aria-hidden="true"
+                              />
+                              <span
+                                className="pointer-events-none absolute top-1 right-1 h-2 w-2 border-t border-r border-[#9E8249]/65"
+                                aria-hidden="true"
+                              />
+                              <span
+                                className="pointer-events-none absolute bottom-1 left-1 h-2 w-2 border-b border-l border-[#9E8249]/65"
+                                aria-hidden="true"
+                              />
+                              <span
+                                className="pointer-events-none absolute bottom-1 right-1 h-2 w-2 border-b border-r border-[#9E8249]/65"
+                                aria-hidden="true"
+                              />
+
+                              <div className="w-16 shrink-0 drop-shadow-[0_4px_10px_rgba(18,63,58,0.16)]">
+                                <RajasthaniGateCard
                                   src={product.images[0]}
                                   alt={product.name}
-                                  className="h-full w-full object-contain"
+                                  fallbackTitle={product.name}
+                                  imageClassName="object-cover object-top"
+                                  showPillarsDetail={false}
                                 />
                               </div>
                               <div className="min-w-0">
-                                <p className="font-display text-base leading-snug text-[#123F3A] truncate group-hover:text-[#9E8249] transition-colors">
+                                <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#9E8249] truncate">
+                                  {product.collectionName}
+                                </p>
+                                <p className="mt-0.5 font-display text-base leading-snug text-[#123F3A] truncate group-hover:text-[#9E8249] transition-colors">
                                   {product.name}
                                 </p>
-                                <p className="mt-0.5 text-xs tabular-nums text-[#303431]/75">
+                                <p className="mt-0.5 text-xs font-medium tabular-nums text-[#303431]/80">
                                   {formatINR(product.priceINR)}
                                 </p>
                               </div>
@@ -365,15 +485,17 @@ export function JournalPage() {
                       key={entry.slug}
                       type="button"
                       onClick={() => handleSelectEntry(entry.slug)}
-                      className={`group flex w-full items-start gap-4 py-4 text-left transition-colors ${
+                      className={`group flex w-full items-center gap-4 py-4 text-left transition-colors ${
                         isActive ? 'opacity-100' : 'opacity-80 hover:opacity-100'
                       }`}
                     >
-                      <div className="h-20 w-15 shrink-0 overflow-hidden border border-[#303431]/15 bg-[#E8E5D9]">
-                        <SafeImage
+                      <div className="w-14 sm:w-16 shrink-0 drop-shadow-[0_4px_8px_rgba(18,63,58,0.14)]">
+                        <RajasthaniGateCard
                           src={entry.coverImage}
                           alt={entry.title}
-                          className="h-full w-full object-cover object-top"
+                          fallbackTitle={entry.title}
+                          imageClassName="object-cover object-top"
+                          showPillarsDetail={false}
                         />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -428,34 +550,41 @@ export function JournalPage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            {/* Active Full-Height 3:4 Portrait Plate */}
-            <div className="lg:col-span-5 mx-auto w-full max-w-md lg:max-w-none">
+            {/* Active Full-Height Sculpted Rajasthani Palace Gate Portrait Plate */}
+            <div className="lg:col-span-5 mx-auto w-full max-w-[285px] sm:max-w-[335px] lg:max-w-[365px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activePlate.id}
-                  initial={prefersReduced ? false : {opacity: 0}}
-                  animate={{opacity: 1}}
-                  exit={prefersReduced ? {opacity: 1} : {opacity: 0}}
-                  transition={{duration: 0.2}}
-                  className="border border-[#C3A66B]/30 bg-[#123F3A] p-2 sm:p-2.5"
+                  initial={prefersReduced ? false : {opacity: 0, scale: 0.985}}
+                  animate={{opacity: 1, scale: 1}}
+                  exit={prefersReduced ? {opacity: 1} : {opacity: 0, scale: 0.985}}
+                  transition={{duration: 0.24}}
+                  className="drop-shadow-[0_18px_36px_rgba(0,0,0,0.48)]"
                 >
-                  <div className="aspect-[3/4] w-full overflow-hidden bg-[#0C2B27]">
-                    <SafeImage
-                      src={activePlate.image}
-                      alt={activePlate.caption}
-                      className="h-full w-full object-cover object-top"
-                    />
-                  </div>
+                  <RajasthaniGateCard
+                    src={activePlate.image}
+                    alt={activePlate.caption}
+                    fallbackTitle={activePlate.title}
+                    imageClassName="object-cover object-top"
+                    bottomGradientHeight="h-[42%]"
+                  >
+                    <p className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#EAD298] tabular-nums truncate">
+                      {activePlate.plateCode}
+                    </p>
+                    <p className="mt-0.5 font-display text-xs sm:text-sm italic text-[#F5F3EC] truncate">
+                      {activePlate.setting}
+                    </p>
+                  </RajasthaniGateCard>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* Right Plate Companion, Provenance Spec & 6-Plate Film Strip */}
+            {/* Right Plate Companion, Provenance Spec & 6-Plate Gate Strip */}
             <div className="flex flex-col gap-5 sm:gap-6 lg:col-span-7">
               <div>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-[#C3A66B]">
                   <span className="font-semibold tabular-nums">{activePlate.plateCode}</span>
-                  <span aria-hidden="true">·</span>
+                  <span aria-hidden="true">◆</span>
                   <span>{activePlate.setting}</span>
                 </div>
                 <h3 className="mt-2 font-display text-2xl sm:text-3xl lg:text-4xl font-normal text-[#E8E5D9]">
@@ -470,21 +599,40 @@ export function JournalPage() {
                 <>
                   <Link
                     to={`/product/${activePlateProduct.slug}`}
-                    className="flex items-center justify-between gap-3 sm:gap-4 border border-[#C3A66B]/30 bg-[#123F3A] p-3 sm:p-3.5 hover:border-[#FFE3A3] transition-colors"
+                    className="group relative flex items-center justify-between gap-3 sm:gap-4 border border-[#C3A66B]/45 bg-[#123F3A] p-3 sm:p-4 hover:border-[#FFE3A3] transition-colors"
                   >
+                    <span
+                      className="pointer-events-none absolute top-1 left-1 h-2.5 w-2.5 border-t border-l border-[#C3A66B]/65"
+                      aria-hidden="true"
+                    />
+                    <span
+                      className="pointer-events-none absolute top-1 right-1 h-2.5 w-2.5 border-t border-r border-[#C3A66B]/65"
+                      aria-hidden="true"
+                    />
+                    <span
+                      className="pointer-events-none absolute bottom-1 left-1 h-2.5 w-2.5 border-b border-l border-[#C3A66B]/65"
+                      aria-hidden="true"
+                    />
+                    <span
+                      className="pointer-events-none absolute bottom-1 right-1 h-2.5 w-2.5 border-b border-r border-[#C3A66B]/65"
+                      aria-hidden="true"
+                    />
+
                     <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                      <div className="h-18 w-14 sm:h-20 sm:w-15 shrink-0 overflow-hidden bg-[#F5F3EC] border border-[#E8E5D9]/15">
-                        <SafeImage
+                      <div className="w-16 sm:w-[70px] shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]">
+                        <RajasthaniGateCard
                           src={activePlateProduct.images[0]}
                           alt={activePlateProduct.name}
-                          className="h-full w-full object-contain"
+                          fallbackTitle={activePlateProduct.name}
+                          imageClassName="object-cover object-top"
+                          showPillarsDetail={false}
                         />
                       </div>
                       <div className="min-w-0">
                         <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.14em] text-[#C3A66B] truncate">
                           Featured in Plate · {activePlateProduct.collectionName}
                         </p>
-                        <p className="mt-0.5 font-display text-base sm:text-lg font-medium text-[#E8E5D9] truncate">
+                        <p className="mt-0.5 font-display text-base sm:text-lg font-medium text-[#E8E5D9] truncate group-hover:text-[#FFE3A3] transition-colors">
                           {activePlateProduct.name}
                         </p>
                         <p className="mt-0.5 text-xs sm:text-sm font-medium tabular-nums text-[#FFE3A3]">
@@ -498,7 +646,7 @@ export function JournalPage() {
                     </span>
                   </Link>
 
-                  <dl className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 border-y border-[#E8E5D9]/15 py-3.5 sm:py-4">
+                  <dl className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 border-y border-[#C3A66B]/20 py-3.5 sm:py-4">
                     <div>
                       <dt className="text-[10px] uppercase tracking-[0.14em] text-[#E8E5D9]/60">
                         Fabric
@@ -528,10 +676,13 @@ export function JournalPage() {
               )}
 
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E8E5D9]/65">
-                  Select Lookbook Plate
-                </p>
-                <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-6">
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-5 bg-[#C3A66B]" aria-hidden="true" />
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#C3A66B]">
+                    Select Lookbook Plate
+                  </p>
+                </div>
+                <div className="mt-3.5 grid grid-cols-3 gap-2.5 sm:grid-cols-6 sm:gap-3">
                   {LOOKBOOK_GALLERY.map((plate) => {
                     const isSelected = plate.id === activePlate.id;
                     return (
@@ -539,22 +690,28 @@ export function JournalPage() {
                         key={plate.id}
                         type="button"
                         onClick={() => setActivePlateId(plate.id)}
-                        className={`group text-left border p-1 transition-colors ${
+                        className={`group relative mx-auto block w-full max-w-[110px] transition-all duration-300 focus-visible:outline-none ${
                           isSelected
-                            ? 'border-[#C3A66B] bg-[#123F3A]'
-                            : 'border-[#E8E5D9]/15 bg-[#0C2B27] hover:border-[#C3A66B]/60'
+                            ? '-translate-y-1 drop-shadow-[0_10px_20px_rgba(195,166,107,0.34)]'
+                            : 'opacity-80 hover:opacity-100 hover:-translate-y-0.5 drop-shadow-[0_6px_12px_rgba(0,0,0,0.35)]'
                         }`}
                       >
-                        <div className="aspect-[3/4] w-full overflow-hidden bg-[#123F3A]">
-                          <SafeImage
-                            src={plate.image}
-                            alt={plate.caption}
-                            className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
-                          />
-                        </div>
-                        <p className="mt-1.5 px-0.5 text-[11px] font-medium text-[#FFE3A3] truncate">
-                          {plate.plateCode}
-                        </p>
+                        <RajasthaniGateCard
+                          src={plate.image}
+                          alt={plate.caption}
+                          fallbackTitle={plate.plateCode}
+                          imageClassName="object-cover object-top transition-transform duration-500 group-hover:scale-[1.06]"
+                          bottomGradientHeight="h-[46%]"
+                          showPillarsDetail={false}
+                        >
+                          <p
+                            className={`text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-[0.1em] truncate ${
+                              isSelected ? 'text-[#FFE3A3]' : 'text-[#E8E5D9]'
+                            }`}
+                          >
+                            {plate.plateCode}
+                          </p>
+                        </RajasthaniGateCard>
                       </button>
                     );
                   })}

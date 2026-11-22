@@ -83,6 +83,21 @@
   background-size: 24px 24px;
 }
 
+.clip-rajasthani-gate {
+  clip-path: url(#zariya-rajasthani-gate-clip);
+}
+
+.collection-horizontal-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.collection-horizontal-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

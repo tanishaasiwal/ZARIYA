@@ -5,6 +5,7 @@ import {ASSETS, COLLECTIONS, getProductsForCollection} from '../data/catalog';
 import {FadeInSection, PageShell, usePageMeta} from '../components/MotionPrimitives';
 import {Breadcrumbs} from '../components/Breadcrumbs';
 import {SafeImage} from '../components/SafeImage';
+import {RajasthaniGateCard, RajasthaniHeroOrnament} from '../components/RajasthaniGateCard';
 
 export function CollectionsPage() {
   usePageMeta(
@@ -14,8 +15,8 @@ export function CollectionsPage() {
 
   return (
     <PageShell className="bg-[#F5F3EC]">
-      {/* Collections Index Hero */}
-      <section className="relative min-h-[320px] sm:h-[360px] lg:h-[420px] w-full overflow-hidden bg-[#0E312D] flex items-center py-10 sm:py-0">
+      {/* Collections Index Hero — Rajasthani Palace Gate Aesthetic */}
+      <section className="relative min-h-[340px] sm:min-h-[380px] lg:min-h-[430px] w-full overflow-hidden border-b border-[#C3A66B]/35 bg-[#0E312D] flex items-center py-10 sm:py-12">
         <SafeImage
           src={ASSETS.heroPeacockMoody4k}
           alt="ZARIYA handwoven saree collections heritage colonnade"
@@ -25,24 +26,59 @@ export function CollectionsPage() {
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/82 via-black/48 to-black/20 sm:inset-y-0 sm:left-0 sm:right-auto sm:w-[65%] lg:w-[60%] sm:bg-gradient-to-r sm:from-black/72 sm:via-black/42 sm:to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#09211E]/90 via-[#09211E]/60 to-[#09211E]/30 sm:bg-gradient-to-r sm:from-[#09211E]/92 sm:via-[#09211E]/72 sm:to-[#09211E]/45"
         />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
-          <div className="max-w-xl">
+        <RajasthaniHeroOrnament />
+
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-5 sm:px-8 lg:grid-cols-12">
+          <div className="lg:col-span-7 max-w-xl">
             <Breadcrumbs
               tone="on-dark"
               items={[{label: 'Home', to: '/'}, {label: 'Collections'}]}
             />
-            <p className="mt-3 sm:mt-4 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3] [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-              Twelve Heritage &amp; Couture Houses
-            </p>
-            <h1 className="mt-1.5 sm:mt-2 font-display text-[26px] font-normal leading-[1.1] text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.65)] sm:text-5xl lg:text-[54px]">
+            <div className="mt-3 sm:mt-4 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rotate-45 bg-[#C3A66B]" aria-hidden="true" />
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#FFE3A3] [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+                Twelve Heritage &amp; Couture Houses
+              </p>
+            </div>
+            <h1 className="mt-1.5 sm:mt-2 font-display text-[28px] font-normal leading-[1.08] text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.65)] sm:text-5xl lg:text-[54px]">
               The ZARIYA Collections
             </h1>
-            <p className="mt-2 sm:mt-3 text-[13px] leading-snug text-[#F5F3EC] [text-shadow:0_1px_12px_rgba(0,0,0,0.8)] sm:text-base sm:leading-relaxed">
+            <p className="mt-2.5 sm:mt-3 text-[13px] leading-snug text-[#F5F3EC] [text-shadow:0_1px_12px_rgba(0,0,0,0.8)] sm:text-base sm:leading-relaxed">
               From kadwa Banarasi and double-ikat Patola to Dhakai Jamdani, Mysore crepe, and
               Gajji Bandhani, each house celebrates an enduring Indian craft lineage.
             </p>
+          </div>
+
+          <div className="hidden lg:flex lg:col-span-5 items-end justify-end">
+            <div className="relative flex items-end justify-end">
+              <div className="w-[215px] drop-shadow-[0_14px_28px_rgba(0,0,0,0.45)]">
+                <RajasthaniGateCard
+                  src={COLLECTIONS[0].image}
+                  alt={COLLECTIONS[0].name}
+                  fallbackTitle={COLLECTIONS[0].name}
+                  priority
+                  bottomGradientHeight="h-[44%]"
+                >
+                  <p className="text-[9px] font-medium uppercase tracking-[0.15em] text-[#EAD298]">
+                    {COLLECTIONS[0].origin}
+                  </p>
+                  <p className="mt-0.5 font-display text-lg text-[#F5F3EC] leading-tight">
+                    {COLLECTIONS[0].name}
+                  </p>
+                </RajasthaniGateCard>
+              </div>
+              <div className="-ml-8 mb-3 w-[132px] drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]">
+                <RajasthaniGateCard
+                  src={COLLECTIONS[1].image}
+                  alt={COLLECTIONS[1].name}
+                  fallbackTitle={COLLECTIONS[1].name}
+                  priority
+                  showPillarsDetail={false}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
